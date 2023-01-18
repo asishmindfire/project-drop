@@ -5,8 +5,10 @@ export class VehicleDto {
 
     @IsString()
     license: string;
+    
     @IsString()
     vehicleName: string;
+
     @IsString()
     ownerName: string;
 
