@@ -33,6 +33,40 @@ export class parkingService {
         return [this.parkingDetails[slotIndex]];
     }
 
+    // Remove vehicle from the parking lot
+    deletevehicleService(license: string): VehicleDto[] {
+        var isAvailable = false;
+        var slotIndex = [{
+            license: "",
+            vehicleName: "",
+            ownerName: "",
+            slotId: "",
+            isEmpty: true
+        }];
+        this.parkingDetails = this.parkingDetails.map((slot) => {
+            if (license == slot.license) {
+                slot.isEmpty = true;
+                slotIndex[0].license = slot.license;
+                slotIndex[0].vehicleName = slot.vehicleName;
+                slotIndex[0].ownerName = slot.ownerName;
+                slotIndex[0].slotId = slot.slotId;
+                delete slot.license;
+                delete slot.vehicleName;
+                delete slot.ownerName;
+                isAvailable = true;
+            }
+            return slot;
+        });
+        if (!isAvailable) {
+            throw new BadRequestException({
+                "statusCode": 400,
+                "message": "Vehicle not available!"
+            });
+        }
+        return slotIndex;
+    }
+
+
     // Get whole parking details
     getParkingDetails(): VehicleDto[] {
         return this.parkingDetails;

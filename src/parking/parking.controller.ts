@@ -13,7 +13,14 @@ export class ParkingController {
     addVehicle(@Body() vehicle: VehicleDto): VehicleDto[] {
         return this.parkingService.addVehicleService(vehicle);
     }
-    
+
+    // Empty a parking slot
+    @Delete('/unpark/:license')
+    deleteVehicle(@Param("license") licenseId: string): VehicleDto[] {
+        return this.parkingService.deletevehicleService(licenseId);
+    }
+
+
     @Get('/parking')
     getAllParkingDetails(): VehicleDto[] {
         return this.parkingService.getParkingDetails();
