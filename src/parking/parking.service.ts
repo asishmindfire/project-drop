@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException, HttpException, HttpStatus } from "@nestjs/common";
 import { VehicleDto } from "./data/vehicle.dto";
 
 
@@ -25,10 +25,7 @@ export class parkingService {
             return slot;
         });
         if (check == false) {
-            throw new BadRequestException({
-                "statusCode": 400,
-                "message": "Parking lot is full"
-            });
+            throw new HttpException("Parking lot is full", HttpStatus.BAD_REQUEST);
         }
         return [this.parkingDetails[slotIndex]];
     }
@@ -58,14 +55,22 @@ export class parkingService {
             return slot;
         });
         if (!isAvailable) {
-            throw new BadRequestException({
-                "statusCode": 400,
-                "message": "Vehicle not available!"
-            });
+            throw new HttpException("Vehicle not available!", HttpStatus.BAD_REQUEST);
         }
         return slotIndex;
     }
 
+    // Get parking slot details
+    getSlotInfo(slotId: string): VehicleDto[] {
+        var slotDetails = this.parkingDetails.filter((slot) => {
+            return slot.slotId == slotId;
+        });
+
+        if (slotDetails.length <= 0) {
+            throw new HttpException('Please provide a valid slotId.', HttpStatus.BAD_REQUEST);
+        }
+        return slotDetails;
+    }
 
     // Get whole parking details
     getParkingDetails(): VehicleDto[] {

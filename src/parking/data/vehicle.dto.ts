@@ -10,8 +10,8 @@ export class VehicleDto {
     @IsString()
     ownerName: string;
 
-    @IsString()
+    // @IsString()
     slotId: string;
-    @IsBoolean()
+    // @IsBoolean()
     isEmpty: boolean;
 }
