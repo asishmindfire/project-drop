@@ -1,12 +1,22 @@
 import { BadRequestException, Injectable, NotFoundException, HttpException, HttpStatus } from "@nestjs/common";
-import { VehicleDto } from "./data/vehicle.dto";
-
+import { VehicleDto } from "../data/vehicle.dto";
+import { v4 as uuidv4 } from 'uuid';
+import { envConfig } from "../../config/config.service";
 
 @Injectable()
-export class parkingService {
+export class memoryService {
 
-    // Get full parking slot details from .env
-    public parkingDetails: VehicleDto[] = JSON.parse(process.env.PARKINGSIZE);
+    private parkingDetails = [];
+    constructor() {
+        const parkingSize = envConfig.parkingLotSize();
+        for (let index = 0; index < parkingSize; index++) {
+            const payload = {
+                "slotId": uuidv4(),
+                "isEmpty": true
+            }
+            this.parkingDetails.push(payload);
+        }
+    }
 
 
     // Add vehicle to the parking lot

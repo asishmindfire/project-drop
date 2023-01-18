@@ -26,8 +26,4 @@ import { UserModule } from './users/user.module';
     }
   ],
 })
-export class RootModule {
-  constructor() {
-    console.log(`RootModule`);
-  }
-}
+export class RootModule { }

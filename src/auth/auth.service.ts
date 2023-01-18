@@ -7,11 +7,11 @@ import { User } from "src/users/user.entity";
 export class AuthService {
 
     constructor(private readonly jwtService: JwtService) {
-        
+
     }
 
 
-    generateToken(payload: User) : string {
-        return this.jwtService.sign(payload);
+    generateToken(payload: User): string {
+        return this.jwtService.sign(payload, { secret: process.env.SECRETKEY });
     }
 }
