@@ -10,6 +10,7 @@ async function bootstrap() {
   });
   app.use(helmet());
   app.setGlobalPrefix('api/v1');
-  await app.listen(process.env.port);
+  const port = process.env.port || 3000;
+  await app.listen(port);
 }
 bootstrap();

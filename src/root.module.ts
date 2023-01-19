@@ -12,8 +12,8 @@ import { UserModule } from './users/user.module';
   }),
     ParkingModule,
   ThrottlerModule.forRoot({
-    ttl: 1,     // sec
-    limit: 429,
+    ttl: 1,     // second
+    limit: +process.env.RATE_LIMIT_PER_SECOND || 10,
   }),
     UserModule,
     AuthModule

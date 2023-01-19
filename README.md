@@ -34,11 +34,13 @@ $ npm install
 PORT=
 PARKINGSIZE=
 SECRETKEY=
+RATE_LIMIT_PER_SECOND=
 
 # paste it in .env file and update values
 PORT=3000
 PARKINGSIZE=5
 SECRETKEY=secret_key
+RATE_LIMIT_PER_SECOND=10
 ```
 
 ## Running the app
@@ -69,7 +71,8 @@ http://localhost:{port}/api/v1/park
 
 In order to test the application user need to login in the system and generate the jwt token.
 User can use the below username and password to login.
-## Users
+
+### Users
 ```bash
 username: "User1",
 password: "admin",
@@ -79,9 +82,43 @@ password: "admin",
 
 username: "User3",
 password: "admin",
-
 ```
 
+### Login api
+
+```http
+POST /api/v1/login
+```
+```javascript
+# Request (Use any above username and password)
+{
+    "username": "User3",
+    "password": "admin"
+}
+```
+```javascript
+# Response
+{
+    "status": true,
+    "data": "eyJhbGciO.eyJ1c2NlcjNAZ21haWwuY29tIiwiaWF0I.Bgum5V8jS4",
+    "message": "Token generated successfully."
+}
+```
+
+## Rate limiter 
+
+- In .env file user can define how many request per second can be acceptable by the application.
+- Default limit - 10 requests per second.
+
+### Steps
+
+```bash
+# copy the RATE_LIMIT_PER_SECOND veriable from .env.example file
+RATE_LIMIT_PER_SECOND=
+
+# paste it in .env file and update values as per the requirement
+RATE_LIMIT_PER_SECOND=10
+```
 
 ## Testing the app 
 
