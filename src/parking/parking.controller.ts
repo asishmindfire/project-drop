@@ -143,7 +143,7 @@ export class ParkingController {
      * @returns VehicleDto
      */
     @UseGuards(AuthGuard('jwt'))
-    @Get('/parking')
+    @Get('/park')
     getAllParkingDetails(): object {
         try {
             let vehicle = this.parkingService.getParkingDetails();

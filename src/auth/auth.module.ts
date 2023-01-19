@@ -9,7 +9,7 @@ import { PassportLocalStrategy } from './passport.local.strategy';
 @Module({
     imports: [PassportModule, UserModule, JwtModule.register({
         secret: process.env.SECRETKEY,
-        signOptions: { expiresIn: '200s' },
+        signOptions: { expiresIn: '3600s' },
     })],
     controllers: [],
     providers: [PassportLocalStrategy, JwtStrategy, AuthService],
