@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException, HttpException, HttpStatus } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException, HttpException, HttpStatus, ConflictException } from "@nestjs/common";
 import { VehicleDto } from "../data/vehicle.dto";
 import { v4 as uuidv4 } from 'uuid';
 import { envConfig } from "../../config/config.service";
@@ -23,6 +23,13 @@ export class memoryService {
     addVehicleService(parkingDetail: VehicleDto): VehicleDto[] {
         var check = false;
         var slotIndex = undefined;
+
+        const isLicenseAvailable = this.parkingDetails.filter((slot) => slot.license == parkingDetail.license);
+
+        if (isLicenseAvailable.length > 0) {
+            throw new HttpException("This vehicle in already parked!", HttpStatus.CONFLICT);
+        }
+
         this.parkingDetails = this.parkingDetails.map((slot, index) => {
             if (slot.isEmpty == true && check == false) {
                 slot.license = parkingDetail.license;

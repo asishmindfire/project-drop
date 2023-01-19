@@ -70,11 +70,7 @@ export class ParkingController {
             }
             return resp;
         } catch (error) {
-            var err = {
-                status: false,
-                message: error.message
-            }
-            return err;
+            throw new HttpException({ status: false, message: error.response }, error.status);
         }
     }
 
