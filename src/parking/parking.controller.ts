@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards, Request, ValidationPipe } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, UseGuards, Request, ValidationPipe, HttpException, HttpStatus } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
 import { AuthService } from "src/auth/auth.service";
 import { VehicleDto } from "./data/vehicle.dto";
@@ -98,11 +98,7 @@ export class ParkingController {
             }
             return resp;
         } catch (error) {
-            var err = {
-                status: false,
-                message: error.message
-            }
-            return err;
+            throw new HttpException({ status: false, message: error.response }, error.status);
         }
     }
 
@@ -126,11 +122,7 @@ export class ParkingController {
             }
             return resp;
         } catch (error) {
-            var err = {
-                status: false,
-                message: error.message
-            }
-            return err;
+            throw new HttpException({ status: false, message: error.response }, error.status);
         }
     }
 

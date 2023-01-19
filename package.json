@@ -1,8 +1,8 @@
 {
   "name": "project-drop",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Parking system",
+  "author": "Asish S <mfsi.asish.s@gmail.com>",
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
