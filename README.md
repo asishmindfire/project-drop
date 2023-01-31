@@ -97,7 +97,7 @@ password: "admin",
 ### Login api
 
 ```http
-POST /api/v1/login
+POST /api/v1/auth/login
 ```
 ```javascript
 # Request (Use any above username and password)
