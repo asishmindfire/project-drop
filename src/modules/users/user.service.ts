@@ -1,5 +1,5 @@
-import { Injectable } from "@nestjs/common";
-import { User } from "./user.entity";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { User } from "./entities/user.entity";
 
 
 @Injectable()
@@ -25,6 +25,7 @@ export class UserService {
 
 
     getUserByName(userName: string): User {
+        if (typeof (userName) === 'number') throw new HttpException("Username should be a string type.", HttpStatus.BAD_REQUEST);
         return this.users.find((user) => user.username === userName);
     }
 }

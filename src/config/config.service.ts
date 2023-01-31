@@ -1,7 +1,6 @@
-import { ConfigService } from '@nestjs/config';
 
 export const envConfig = {
-  parkingLotSize: () => {
+  parkingLotSize: (): number => {
     return parseInt(process.env.PARKINGSIZE) || 5;
-  },
+  }
 };

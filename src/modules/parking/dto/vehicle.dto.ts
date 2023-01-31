@@ -1,5 +1,5 @@
 
-import { IsString, IsInt, IsBoolean, IsEmpty, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty } from 'class-validator';
 
 export class VehicleDto {
 
@@ -15,8 +15,6 @@ export class VehicleDto {
     @IsNotEmpty()
     ownerName: string;
 
-    // @IsString()
     slotId: string;
-    // @IsBoolean()
     isEmpty: boolean;
 }
