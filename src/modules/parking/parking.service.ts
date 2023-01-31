@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { envConfig } from "../../config/config.service";
 import { InMemoryService } from "../shared/inmemory.service";
 import { Park } from "./entities/parking.entity";
-import { IResponse } from "../shared/interfaces/response.interface";
 import { IParkingService } from "./interfaces/parking.service.interface";
 
 @Injectable()
@@ -26,7 +25,7 @@ export class parkingService implements IParkingService {
     }
 
     // Add vehicle to the parking lot
-    async addVehicle(parkingDetail: VehicleDto): Promise<IResponse<Park>> {
+    async addVehicle(parkingDetail: VehicleDto): Promise<Park> {
 
         let getSlots = await this.memorySvc.get('slots');
         let check = false;
@@ -53,15 +52,11 @@ export class parkingService implements IParkingService {
             throw new HttpException("Parking lot is full", HttpStatus.BAD_REQUEST);
         }
         await this.memorySvc.set('slots', getSlots, { ttl: 3600 });
-        return {
-            status: true,
-            data: getSlots[slotIndex],
-            message: "Vehicle parked successfully."
-        }
+        return getSlots[slotIndex]
     }
 
     // Remove vehicle from the parking lot
-    async deleteVehicle(license: string): Promise<IResponse<Park>> {
+    async deleteVehicle(license: string): Promise<Park> {
 
         let getSlots = await this.memorySvc.get('slots');
         let isAvailable = false;
@@ -81,15 +76,11 @@ export class parkingService implements IParkingService {
             throw new HttpException("Vehicle not available!", HttpStatus.BAD_REQUEST);
         }
         await this.memorySvc.set('slots', getSlots, { ttl: 3600 });
-        return {
-            status: true,
-            data: slotIndex,
-            message: "Parking slot cleard."
-        }
+        return slotIndex;
     }
 
     // Get parking slot details
-    async getSlotInfo(slotId: string): Promise<IResponse<Park>> {
+    async getSlotInfo(slotId: string): Promise<Park> {
 
         let getSlots = await this.memorySvc.get('slots');
         var slotDetails = getSlots.filter((slot: VehicleDto) => {
@@ -99,21 +90,13 @@ export class parkingService implements IParkingService {
         if (slotDetails.length <= 0) {
             throw new HttpException('Please provide a valid slotId.', HttpStatus.BAD_REQUEST);
         }
-        return {
-            status: true,
-            data: slotDetails,
-            message: "Details of given slot."
-        }
+        return slotDetails;
     }
 
     // Get whole parking details
-    async getParkingDetails(): Promise<IResponse<Park>> {
+    async getParkingDetails(): Promise<Park> {
         const data = await this.memorySvc.get('slots');
         if (!data) throw new HttpException('Parking details not found.', HttpStatus.NOT_FOUND);
-        return {
-            status: true,
-            data: data,
-            message: "Total parking deatils."
-        }
+        return data;
     }
 }

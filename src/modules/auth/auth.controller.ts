@@ -1,5 +1,6 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import sendResponse from 'src/utils/sendresponse';
 import { IResponse } from '../shared/interfaces/response.interface';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
@@ -22,7 +23,8 @@ export class AuthController {
     @Post('/login')
     @UseGuards(AuthGuard('local'))
     login(@Body() loginData: LoginDto): IResponse<string> {
-        return this.authService.generateToken(loginData);
+        const token = this.authService.generateToken(loginData);
+        return sendResponse({ status: true, data: token, message: "Token generated successfully." });
     }
 
 }

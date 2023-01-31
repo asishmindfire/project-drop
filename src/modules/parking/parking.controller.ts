@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Post, UseGuards, HttpException } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import sendResponse from "src/utils/sendresponse";
 import { IResponse } from "../shared/interfaces/response.interface";
 import { VehicleDto } from "./dto/vehicle.dto";
 import { Park } from "./entities/parking.entity";
@@ -24,7 +25,8 @@ export class ParkingController {
     @Post('/park')
     async addVehicle(@Body() vehicleDetails: VehicleDto): Promise<IResponse<Park>> {
         try {
-            return await this.parkingService.addVehicle(vehicleDetails);
+            const data = await this.parkingService.addVehicle(vehicleDetails);
+            return sendResponse({ status: true, data, message: "Vehicle parked successfully." })
         } catch (error) {
             throw new HttpException({ status: false, message: error.response }, error.status);
         }
@@ -43,7 +45,8 @@ export class ParkingController {
     @Delete('/unpark/:license')
     async deleteVehicle(@Param("license") licenseId: string): Promise<IResponse<Park>> {
         try {
-            return await this.parkingService.deleteVehicle(licenseId);
+            const data = await this.parkingService.deleteVehicle(licenseId);
+            return sendResponse({ status: true, data, message: "Parking slot cleard." });
         } catch (error) {
             throw new HttpException({ status: false, message: error.response }, error.status);
         }
@@ -62,7 +65,8 @@ export class ParkingController {
     @Get('/slot/:slotId')
     async getSlotDetails(@Param("slotId") slotId: string): Promise<IResponse<Park>> {
         try {
-            return await this.parkingService.getSlotInfo(slotId);
+            const data = await this.parkingService.getSlotInfo(slotId);
+            return sendResponse({ status: true, data, message: "Details of given slot." });
         } catch (error) {
             throw new HttpException({ status: false, message: error.response }, error.status);
         }
@@ -81,7 +85,8 @@ export class ParkingController {
     @Get('/park')
     async getAllParkingDetails(): Promise<IResponse<Park>> {
         try {
-            return await this.parkingService.getParkingDetails();
+            const data = await this.parkingService.getParkingDetails();
+            return sendResponse({ status: true, data, message: "Total parking deatils." });
         } catch (error) {
             throw new HttpException({ status: false, message: error.response }, error.status);
         }

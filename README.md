@@ -5,11 +5,21 @@ The system is designed with an objective to meet the requirements of controlled 
 
 
 ### Features
-- Authenticate user ( ~POST /api/v1/login )
+- Authenticate user ( ~POST /api/v1/auth/login )
 - Park vehicle      ( ~POST /api/v1/park )
 - Unpark vehicle    ( ~DELETE /api/v1/unpark/:license )
 - Get parking details ( ~GET /api/v1/park )
 - Get slot details ( ~GET /api/v1/slot/:slotId )
+
+## Updated features
+- In-memory database using cacheManager for storing the parking details
+- DTO for request validation
+- Interfaces for methods for every service file
+- Generic response using utils 
+
+## To view the workflow of project please visit the below url
+
+Diagram link  - https://drive.google.com/file/d/1JRSkOCDDk70_D3Uzao8tcykSmN6QUxmM/view?usp=share_link
 
 ### In order to see the api postman collection please visit the below postman collection url
 
