@@ -1,7 +1,7 @@
 import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { IResponse } from '../shared/interfaces/response.interface';
 import { AuthService } from './auth.service';
-import { ParkResponse } from "../parking/interfaces/parking.model";
 import { LoginDto } from './dto/login.dto';
 
 @Controller('auth')
@@ -21,7 +21,7 @@ export class AuthController {
     */
     @Post('/login')
     @UseGuards(AuthGuard('local'))
-    login(@Body() loginData: LoginDto): ParkResponse {
+    login(@Body() loginData: LoginDto): IResponse<string> {
         return this.authService.generateToken(loginData);
     }
 

@@ -1,7 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, UseGuards, HttpException } from "@nestjs/common";
 import { AuthGuard } from "@nestjs/passport";
+import { IResponse } from "../shared/interfaces/response.interface";
 import { VehicleDto } from "./dto/vehicle.dto";
-import { ParkResponse } from "./interfaces/parking.model";
+import { Park } from "./entities/parking.entity";
 import { parkingService } from "./parking.service";
 
 
@@ -21,9 +22,9 @@ export class ParkingController {
      */
     @UseGuards(AuthGuard('jwt'))
     @Post('/park')
-    async addVehicle(@Body() vehicleDetails: VehicleDto): Promise<ParkResponse> {
+    async addVehicle(@Body() vehicleDetails: VehicleDto): Promise<IResponse<Park>> {
         try {
-            return await this.parkingService.addVehicleService(vehicleDetails);
+            return await this.parkingService.addVehicle(vehicleDetails);
         } catch (error) {
             throw new HttpException({ status: false, message: error.response }, error.status);
         }
@@ -40,9 +41,9 @@ export class ParkingController {
      */
     @UseGuards(AuthGuard('jwt'))
     @Delete('/unpark/:license')
-    async deleteVehicle(@Param("license") licenseId: string): Promise<ParkResponse> {
+    async deleteVehicle(@Param("license") licenseId: string): Promise<IResponse<Park>> {
         try {
-            return await this.parkingService.deletevehicleService(licenseId);
+            return await this.parkingService.deleteVehicle(licenseId);
         } catch (error) {
             throw new HttpException({ status: false, message: error.response }, error.status);
         }
@@ -59,7 +60,7 @@ export class ParkingController {
      */
     @UseGuards(AuthGuard('jwt'))
     @Get('/slot/:slotId')
-    async getSlotDetails(@Param("slotId") slotId: string): Promise<ParkResponse> {
+    async getSlotDetails(@Param("slotId") slotId: string): Promise<IResponse<Park>> {
         try {
             return await this.parkingService.getSlotInfo(slotId);
         } catch (error) {
@@ -78,7 +79,7 @@ export class ParkingController {
      */
     @UseGuards(AuthGuard('jwt'))
     @Get('/park')
-    async getAllParkingDetails(): Promise<ParkResponse> {
+    async getAllParkingDetails(): Promise<IResponse<Park>> {
         try {
             return await this.parkingService.getParkingDetails();
         } catch (error) {

@@ -1,7 +1,6 @@
-import { Injectable, UnauthorizedException } from "@nestjs/common";
+import { Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
-import { ParkResponse } from "../parking/interfaces/parking.model";
-import { User } from "../users/entities/user.entity";
+import { IResponse } from "../shared/interfaces/response.interface";
 import { LoginDto } from "./dto/login.dto";
 
 
@@ -11,7 +10,7 @@ export class AuthService {
     constructor(private readonly jwtService: JwtService) { }
 
 
-    generateToken(payload: LoginDto): ParkResponse {
+    generateToken(payload: LoginDto): IResponse<string> {
         const data = this.jwtService.sign(payload, { secret: process.env.SECRETKEY });
         return {
             status: true,

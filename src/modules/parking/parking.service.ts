@@ -3,10 +3,12 @@ import { VehicleDto } from "./dto/vehicle.dto";
 import { v4 as uuidv4 } from 'uuid';
 import { envConfig } from "../../config/config.service";
 import { InMemoryService } from "../shared/inmemory.service";
-import { Park, ParkResponse } from "./interfaces/parking.model";
+import { Park } from "./entities/parking.entity";
+import { IResponse } from "../shared/interfaces/response.interface";
+import { IParkingService } from "./interfaces/parking.service.interface";
 
 @Injectable()
-export class parkingService {
+export class parkingService implements IParkingService {
 
     private parkingDetails: Park[] = [];
     constructor(private memorySvc: InMemoryService) {
@@ -24,7 +26,7 @@ export class parkingService {
     }
 
     // Add vehicle to the parking lot
-    async addVehicleService(parkingDetail: VehicleDto): Promise<ParkResponse> {
+    async addVehicle(parkingDetail: VehicleDto): Promise<IResponse<Park>> {
 
         let getSlots = await this.memorySvc.get('slots');
         let check = false;
@@ -59,7 +61,7 @@ export class parkingService {
     }
 
     // Remove vehicle from the parking lot
-    async deletevehicleService(license: string): Promise<ParkResponse> {
+    async deleteVehicle(license: string): Promise<IResponse<Park>> {
 
         let getSlots = await this.memorySvc.get('slots');
         let isAvailable = false;
@@ -87,7 +89,7 @@ export class parkingService {
     }
 
     // Get parking slot details
-    async getSlotInfo(slotId: string): Promise<ParkResponse> {
+    async getSlotInfo(slotId: string): Promise<IResponse<Park>> {
 
         let getSlots = await this.memorySvc.get('slots');
         var slotDetails = getSlots.filter((slot: VehicleDto) => {
@@ -105,7 +107,7 @@ export class parkingService {
     }
 
     // Get whole parking details
-    async getParkingDetails(): Promise<ParkResponse> {
+    async getParkingDetails(): Promise<IResponse<Park>> {
         const data = await this.memorySvc.get('slots');
         if (!data) throw new HttpException('Parking details not found.', HttpStatus.NOT_FOUND);
         return {

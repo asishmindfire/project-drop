@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import * as request from 'supertest';
-import { RootModule } from '../src/root.module';
+import { RootModule } from '../src/main.module';
 
 
 describe('ParkingController', () => {
@@ -16,6 +16,7 @@ describe('ParkingController', () => {
         }).compile();
 
         app = moduleFixture.createNestApplication();
+        app.useGlobalPipes(new ValidationPipe());
         await app.init();
 
         const response = await request(app.getHttpServer()).post('/auth/login').send({

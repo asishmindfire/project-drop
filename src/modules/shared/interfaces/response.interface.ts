@@ -1,6 +1,6 @@
 
-export interface IResponse {
+export interface IResponse<T> {
     status: boolean;
-    data?: any;
+    data?: T;
     message: string;
 }
